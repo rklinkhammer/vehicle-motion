@@ -15,6 +15,9 @@ python3 -m simulation.demo
 python3 -m unittest discover -s tests -v
 ```
 
-The demo advances a fake clock, commands fictional left/right wheel speeds, then
-models deceleration. Its wheel command is a plant input, not an autonomous goal or
+The demo advances a fake clock, commands fictional mecanum body twists, then
+models deceleration. Its body-twist command is a plant input, not an autonomous goal or
 a daemon API. Values cannot be used as physical vehicle acceptance evidence.
+
+Confirmed platform: four-wheel mecanum; navigation on Zynq PS with planned 1 GB
+RAM. See [geometry](docs/geometry.md) and [sensor/compute planning](docs/compute_and_sensors.md).

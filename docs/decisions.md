@@ -10,19 +10,32 @@
 - Start with architecture and offline simulation. Numeric prototype values carry
   no physical authority.
 
+## User decisions — 2026-11-06 follow-up
+
+- Platform is four-wheel-drive mecanum, identified by the user with
+  [Amazon ASIN B09VZT7DRY](https://www.amazon.com/dp/B09VZT7DRY).
+  This supersedes the initial skid-steer assumption. The listing was accessed,
+  but no dimensions, encoder configuration or roller arrangement were verified.
+- Navigation runs on the Zynq PS. The intended Zynq platform has 1 GB RAM;
+  usable application memory and exact board/device remain to be established.
+- Consider PL support for MIPI camera, GPS and other sensors, including
+  ultrasonic, radar and advanced camera processing. These are candidates, not
+  selected sensors or implemented interfaces.
+- A Jetson Nano for AI/CUDA processing is possible, not committed hardware.
+
 ## Proposals, awaiting vehicle details
 
 | Question | Provisional simulation choice | Required confirmation |
 |---|---|---|
-| Geometry | Ideal differential/skid-steer abstraction | Tracks vs wheels; steering layout; wheel radius, track width, gearing; encoder scale; four-motor side mapping and signs |
-| First behavior | Relative move, turn, dwell and cancel | Actual first task; accuracy, speed and deadline requirements |
+| Geometry | Four-wheel mecanum; ideal 45-degree roller model | Wheel radius, wheelbase/track center spacing, roller arrangement, gearing, encoder scale; FL/FR/RL/RR channel mapping and signs |
+| First behavior | Relative forward/strafe/diagonal move, turn, dwell and cancel | Actual first task; accuracy, speed and deadline requirements |
 | Sensors | Synthetic wheel motion and separate ground truth | Encoders, IMU, GNSS, camera/lidar/range sensors; rates, coverage, latency and validity |
-| Compute | Executor on Zynq PS proposed | Mission/navigation/perception placement, available CPU/RAM, external host and links |
+| Compute | Navigation and executor on Zynq PS; intended 1 GB RAM | Exact board/device, usable memory, mission placement, sensor interfaces, optional Jetson and link |
 | Environment | Unspecified | Indoor/outdoor, surface/slope, obstacles/people, operating area and uncertainty policy |
 | Stop/rearm | Explicit per-motion lifecycle | Measured stopping distance/settling, approved admission API and sequence |
 
-The initial plant uses two effective side speeds, not an approved four-motor map.
-Its effective track width is not a calibrated skid-steer model. No waypoint or
+The plant now models four logical wheels, not an approved daemon channel map.
+Its dimensions and traction are not a calibrated physical mecanum model. No waypoint or
 collision-avoidance capability is claimed. Answers should replace proposals with
 dated decisions, not silently turn simulation defaults into requirements.
 

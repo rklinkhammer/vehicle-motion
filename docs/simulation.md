@@ -1,23 +1,27 @@
 # Offline simulation milestone
 
 Implemented: standard-library Python plant with explicit fake time, ideal
-left/right kinematics, curvature-preserving speed saturation, finite acceleration
+four-wheel mecanum kinematics, uniform wheel-speed saturation, finite acceleration
 and deceleration, wheel odometry and separate traction-affected ground truth.
 No sleeps, networking, daemon API, device access or physical lifecycle is present.
 Python is an offline exploration choice; it does not select a PS runtime stack.
 
-All defaults are fictional: 0.5 m effective track width, 0.8 m/s side limit,
+All defaults are fictional: 0.25 m half-wheelbase and half-track, 0.8 m/s wheel limit,
 1 m/s² acceleration/deceleration, demo speed 0.4 m/s and step 0.01 s. The model
 omits motor dynamics, gearing, encoder quantization, terrain, mass, sensor noise,
 latency and protection. Mean-speed integration approximates curved acceleration;
-this is not a calibrated skid-steer or stopping-safety model.
+this is not a calibrated mecanum or stopping-safety model.
 
 Run `python3 -m simulation.demo`. Ideal travel is 0.4 m after acceleration,
 cruising and stopping, including 0.08 m after zero target is requested. Half
 traction gives identical wheel odometry but only 0.2 m ground-truth travel.
 These values illustrate model behavior, not stopping capability of the vehicle.
 
-Tests cover analytical straight travel/stopping, turn sign, saturation, slip,
+The demo also includes left strafe. Wheel order is FL, FR, RL, RR; see
+[geometry](geometry.md) for the provisional roller convention.
+
+Tests cover analytical straight travel/stopping, strafe, diagonal motion, turn
+sign, combined-twist inversion, body/world rotation, saturation, slip,
 time-step consistency for straight motion and invalid input rejection.
 
 ## Next executor scenarios (not yet implemented)
